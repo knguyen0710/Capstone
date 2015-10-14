@@ -3,8 +3,10 @@ package com.juke.kynasaur.juke2;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
@@ -25,7 +27,7 @@ public class MainActivity extends Activity implements
 
     // Request code that will be used to verify if the result comes from correct activity
     // Can be any integer
-    private static final int REQUEST_CODE = 1337;
+    private static final int AUTHENTICATION_REQUEST_CODE = 1337;
 
     private Player mPlayer;
 
@@ -40,7 +42,7 @@ public class MainActivity extends Activity implements
         builder.setScopes(new String[]{"user-read-private", "streaming"});
         AuthenticationRequest request = builder.build();
 
-        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
+        AuthenticationClient.openLoginActivity(this, AUTHENTICATION_REQUEST_CODE, request);
     }
 
     @Override
@@ -48,23 +50,29 @@ public class MainActivity extends Activity implements
         super.onActivityResult(requestCode, resultCode, intent);
 
         // Check if result comes from the correct activity
-        if (requestCode == REQUEST_CODE) {
+        if (requestCode == AUTHENTICATION_REQUEST_CODE) {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
-                Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
-                mPlayer = Spotify.getPlayer(playerConfig, this, new Player.InitializationObserver() {
-                    @Override
-                    public void onInitialized(Player player) {
-                        mPlayer.addConnectionStateCallback(MainActivity.this);
-                        mPlayer.addPlayerNotificationCallback(MainActivity.this);
-                        mPlayer.play("spotify:track:2TpxZ7JUBn3uw46aR7qd6V");
-                    }
+///*//                Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
+////                mPlayer = Spotify.getPlayer(playerConfig, this, new Player.InitializationObserver() {
+////                    @Override
+////                    public void onInitialized(Player player) {
+////                        mPlayer.addConnectionStateCallback(MainActivity.this);
+////                        mPlayer.addPlayerNotificationCallback(MainActivity.this);
+////                        mPlayer.play("spotify:track:2TpxZ7JUBn3uw46aR7qd6V");
+////                    }
+////
+////                    @Override
+////                    public void onError(Throwable throwable) {
+////                        Log.e("MainActivity", "Could not initialize player: " + throwable.getMessage());
+////                    }
+////                });*/
 
-                    @Override
-                    public void onError(Throwable throwable) {
-                        Log.e("MainActivity", "Could not initialize player: " + throwable.getMessage());
-                    }
-                });
+
+
+            } else {
+                Log.e(MainActivity.class.getSimpleName(), "Unable to authenticate with Spotify");
+                // TODO Do something more useful on error
             }
         }
     }
@@ -72,11 +80,13 @@ public class MainActivity extends Activity implements
     @Override
     public void onLoggedIn() {
         Log.d("MainActivity", "User logged in");
+
     }
 
     @Override
     public void onLoggedOut() {
         Log.d("MainActivity", "User logged out");
+
     }
 
     @Override
