@@ -1,6 +1,5 @@
 package com.juke.kynasaur.juke2;
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,11 +28,12 @@ public class MainActivity extends Activity implements
 
     private Player mPlayer;
 
+    // use @override for nonspecific methods that can be applied to any activity/call/instance/etc.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        // this sets up the initial sign in for the user
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
                 AuthenticationResponse.Type.TOKEN,
                 REDIRECT_URI);
@@ -52,9 +52,13 @@ public class MainActivity extends Activity implements
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
                 Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
+//                set the access token to a variable to be used across activities
                 ((MyApplication) this.getApplication()).setAccessToken(response.getAccessToken());
+//                once sign in is successful, start the sample song on the home page
                 mPlayer = Spotify.getPlayer(playerConfig, this, new Player.InitializationObserver() {
                     @Override
+                    // use "void" for methods in which nothing is explicitly returned
+                    // here, a song is played onInitialized but nothing is actually returned
                     public void onInitialized(Player player) {
                         mPlayer.addConnectionStateCallback(MainActivity.this);
                         mPlayer.addPlayerNotificationCallback(MainActivity.this);
