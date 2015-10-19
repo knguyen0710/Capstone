@@ -53,12 +53,11 @@ public class Main2Activity extends AppCompatActivity {
 
         api.setAccessToken(((MyApplication) this.getApplication()).getAccessToken());
 
-
 //            Pager myPager = new Pager();
 //            myPager = spotify.getAlbumTracks("1JTHIfXnwl78wMhM9Tb7Pb");
 //            Log.d("Success", myPager.href);
 
-//            spotify.getAlbumTracks("71WupOKqXgSrgg0CivZDHS", new HashMap<String "limit", Object int 3>(), new Callback<Tracks>() {
+//            spotify.getAlbumTracks("71WupOKqXgSrgg0CivZDHS", new HashMap<"limit"=3>, new Callback<Tracks>() {
 //                @Override
 //                public void success(Tracks tracks, Response response) {
 ////                  final TextView textViewToChange = (TextView) findViewById(R.id.textView);
