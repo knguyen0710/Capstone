@@ -7,13 +7,20 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.OptionalDataException;
+import java.lang.reflect.Array;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
@@ -30,6 +37,7 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.http.QueryMap;
+import retrofit.mime.TypedInput;
 
 // THIS ACTIVITY USES THE SPOTIFY WRAPPER since the SDK only works for authentication (still in beta)
 public class Main2Activity extends AppCompatActivity {
@@ -53,38 +61,40 @@ public class Main2Activity extends AppCompatActivity {
 
         api.setAccessToken(((MyApplication) this.getApplication()).getAccessToken());
 
-//            Pager myPager = new Pager();
-//            myPager = spotify.getAlbumTracks("1JTHIfXnwl78wMhM9Tb7Pb");
-//            Log.d("Success", myPager.href);
+// Pager object is from Spotify and acts like pagination; must be imported
+        // Track object is similar
+            spotify.getAlbumTracks("71WupOKqXgSrgg0CivZDHS", new Callback<Pager<Track>>() {
+                @Override
+                public void success(Pager<Track> tracks, Response response) {
+                    List<Track> trackList = tracks.items;
+                    String playIt = "";
+                    for(Track t : trackList) {
+                        playIt += t.name;
+                    }
+                                    final TextView textViewToChange = (TextView) findViewById(R.id.textView);
+                textViewToChange.setText(playIt);
+                }
 
-//            spotify.getAlbumTracks("71WupOKqXgSrgg0CivZDHS", new HashMap<"limit"=3>, new Callback<Tracks>() {
-//                @Override
-//                public void success(Tracks tracks, Response response) {
-////                  final TextView textViewToChange = (TextView) findViewById(R.id.textView);
-////                  textViewToChange.setText((CharSequence) track);
-//                    Log.d("Album success", tracks.toString());
-//                }
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.d("----Track list failure", error.toString());
+                }
+            });
+
+
+//        spotify.getAlbum("71WupOKqXgSrgg0CivZDHS", new Callback<Album>() {
+//            @Override
+//            public void success(Album album, Response response) {
+//                final TextView textViewToChange = (TextView) findViewById(R.id.textView);
+//                textViewToChange.setText(album.name);
+//                Log.d("Album success", album.name);
+//            }
 //
-//                @Override
-//                public void failure(RetrofitError error) {
-//                    Log.d("Track list failure", error.toString());
-//                }
-//            });
-
-
-        spotify.getAlbum("71WupOKqXgSrgg0CivZDHS", new Callback<Album>() {
-            @Override
-            public void success(Album album, Response response) {
-                final TextView textViewToChange = (TextView) findViewById(R.id.textView);
-                textViewToChange.setText(album.name);
-                Log.d("Album success", album.name);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.d("Album failure", error.toString());
-            }
-        });
+//            @Override
+//            public void failure(RetrofitError error) {
+//                Log.d("Album failure", error.toString());
+//            }
+//        });
     }
 
 }
