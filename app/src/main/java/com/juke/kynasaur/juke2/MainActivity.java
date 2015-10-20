@@ -59,7 +59,7 @@ public class MainActivity extends Activity implements
                 Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
 //                set the access token to a variable to be used across activities
                 ((MyApplication) this.getApplication()).setAccessToken(response.getAccessToken());
-//                once sign in is successful, start the sample song on the home page
+//                set MyApplication variable to pull playlist variable on line 72
                final MyApplication app = ((MyApplication) this.getApplication());
                 mPlayer = Spotify.getPlayer(playerConfig, this, new Player.InitializationObserver() {
                     @Override
@@ -68,7 +68,7 @@ public class MainActivity extends Activity implements
                     public void onInitialized(Player player) {
                         mPlayer.addConnectionStateCallback(MainActivity.this);
                         mPlayer.addPlayerNotificationCallback(MainActivity.this);
-                        // PLAYLIST CREATION - AUTOMATED PLAY AFTER EACH SONG - MAKE GLOBAL??
+                        // PLAYLIST CREATION - AUTOMATED PLAY AFTER EACH SONG
                         app.addSomeSongs("spotify:track:0xCmwofyCiXdhoBsMSNj2w");
                         mPlayer.play(app.getSomeSongs());
                     }
@@ -80,6 +80,20 @@ public class MainActivity extends Activity implements
                 });
             }
         }
+    }
+
+    public void pauseIt(View v) {
+        // TO DO -- add functionality to pause current song
+        mPlayer.pause();
+    }
+
+    public void playIt(View v) {
+        // TO DO -- add functionality to play current queued song
+        mPlayer.resume();
+    }
+
+    public void songList(View v) {
+        startActivity(new Intent(MainActivity.this, Main2Activity.class));
     }
 
     @Override
