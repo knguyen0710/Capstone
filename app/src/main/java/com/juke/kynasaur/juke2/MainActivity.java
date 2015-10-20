@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
@@ -14,6 +15,10 @@ import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 public class MainActivity extends Activity implements
         PlayerNotificationCallback, ConnectionStateCallback {
@@ -55,6 +60,7 @@ public class MainActivity extends Activity implements
 //                set the access token to a variable to be used across activities
                 ((MyApplication) this.getApplication()).setAccessToken(response.getAccessToken());
 //                once sign in is successful, start the sample song on the home page
+               final MyApplication app = ((MyApplication) this.getApplication());
                 mPlayer = Spotify.getPlayer(playerConfig, this, new Player.InitializationObserver() {
                     @Override
                     // use "void" for methods in which nothing is explicitly returned
@@ -62,12 +68,14 @@ public class MainActivity extends Activity implements
                     public void onInitialized(Player player) {
                         mPlayer.addConnectionStateCallback(MainActivity.this);
                         mPlayer.addPlayerNotificationCallback(MainActivity.this);
-                        mPlayer.play("spotify:track:2TpxZ7JUBn3uw46aR7qd6V");
+                        // PLAYLIST CREATION - AUTOMATED PLAY AFTER EACH SONG - MAKE GLOBAL??
+                        app.addSomeSongs("spotify:track:0xCmwofyCiXdhoBsMSNj2w");
+                        mPlayer.play(app.getSomeSongs());
                     }
 
                     @Override
                     public void onError(Throwable throwable) {
-                        Log.e("MainActivity", "Could not initialize player: " + throwable.getMessage());
+                        Log.e("===MainActivity", "Could not initialize player: " + throwable.getMessage());
                     }
                 });
             }

@@ -28,6 +28,7 @@ import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Album;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Track;
+import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.Tracks;
 import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
@@ -58,18 +59,35 @@ public class Main2Activity extends AppCompatActivity {
         SpotifyService spotify = api.getService();
 
 //        define the access token with the global variable set in MyApplication.java through the AndroidManifest directly under <application>
-
         api.setAccessToken(((MyApplication) this.getApplication()).getAccessToken());
 
-// Pager object is from Spotify and acts like pagination; must be imported
-        // Track object is similar
+//        // OAUTH NOT WORKING FOR PLAYLIST CREATIION
+//        final Map<String,Object> options=new HashMap<>();
+//        options.put("name","My Playlist");
+//        options.put("public", true);
+//        spotify.createPlaylist("khn710", options, new Callback<Playlist>() {
+//            @Override
+//            public void success(Playlist playlist, Response response) {
+//                Log.d("Successful", response.toString());
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                Log.d("Playlist failure", error.toString());
+//            }
+//        });
+
+
+//  //Pager object is from Spotify and acts like pagination; must be imported
+//         //Track object is similar
             spotify.getAlbumTracks("71WupOKqXgSrgg0CivZDHS", new Callback<Pager<Track>>() {
                 @Override
                 public void success(Pager<Track> tracks, Response response) {
+                   // specify that that trackList object is not of regular List object but also inherits from the Track object by putting it in carrots "List<Track>"
                     List<Track> trackList = tracks.items;
                     String playIt = "";
                     for(Track t : trackList) {
-                        playIt += t.name;
+                        playIt += t.name +" \n";
                     }
                                     final TextView textViewToChange = (TextView) findViewById(R.id.textView);
                 textViewToChange.setText(playIt);
