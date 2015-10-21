@@ -89,7 +89,7 @@ public class Main2Activity extends AppCompatActivity {
                     for(Track t : trackList) {
                         playIt += t.name +" \n";
                     }
-                                    final TextView textViewToChange = (TextView) findViewById(R.id.textView);
+                    final TextView textViewToChange = (TextView) findViewById(R.id.textView);
                 textViewToChange.setText(playIt);
                 }
 
