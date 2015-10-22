@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.parse.Parse;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.spotify.sdk.android.player.Spotify;
@@ -21,6 +22,7 @@ import com.spotify.sdk.android.player.PlayerState;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
@@ -51,7 +53,7 @@ public class MainActivity extends Activity implements
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
 
-        Parse.initialize(this, "NnUyDFvhp0q1CqMpYyMNYfKlJzJI7eNcbbhnu9cL", "MY-KEY-HERE");
+        Parse.initialize(this, "NnUyDFvhp0q1CqMpYyMNYfKlJzJI7eNcbbhnu9cL", "CCW2gwpmLwHExTcHAbEzk7ZaeNYRFSvue74oaAzO");
 
         ParseUser user = new ParseUser();
         user.setUsername("my name");
@@ -87,8 +89,13 @@ public class MainActivity extends Activity implements
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
                 Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
+               // SAVING SONGS TO THE PARSE DB
+                ParseObject playList = new ParseObject("PlayList");
+                playList.put("songs", Arrays.asList("spotify:track:0xCmwofyCiXdhoBsMSNj2w", "spotify:track:3NFuE3uDOr6QUw9UZ9HzKo"));
+                playList.saveInBackground();
+
 //                set the access token to a variable to be used across activities
-                ((MyApplication) this.getApplication()).setAccessToken(response.getAccessToken());
+                        ((MyApplication) this.getApplication()).setAccessToken(response.getAccessToken());
 //                set MyApplication variable to pull playlist variable on line 72
                final MyApplication app = ((MyApplication) this.getApplication());
                 mPlayer = Spotify.getPlayer(playerConfig, this, new Player.InitializationObserver() {
