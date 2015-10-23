@@ -61,34 +61,11 @@ public class Main3Activity extends AppCompatActivity {
 
         ListView listView = (ListView) findViewById(R.id.listView);
 
-//        ParseQuery<ParseObject> query = ParseQuery.getQuery("PlayList");
-//        query.getInBackground("FkCpf3N2uA", new GetCallback<ParseObject>() {
-//            public void done(ParseObject object, ParseException e) {
-//                if (e == null) {
-//                    JSONArray here = object.getJSONArray("songs");
-//                    Log.d("SUCCESS==", here.toString());
-//                    // object will be your game score
-//                } else {
-//                    Log.d("FAILURE==", e.toString());
-//                    // something went wrong
-//                }
-//            }
-//        });
 
-        // USE THIS TO TRY TO PUT IT INTO THE LISTVIEW
+        // CHANGE THIS TO BE FROM SONG LIST SO WHEN CLICKED IT ADDS TO PLAYLIST
         JSONArray testings = app.playList.getJSONArray("songs");
-        try {
-            System.out.println(testings.get(1));
-//            System.out: spotify:track:0xCmwofyCiXdhoBsMSNj2w;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
-//        Track[] songs = {
-//                new Track("2 a.m.", "Adrian Marcel", "spotify:track:64Jyg9AzWl3AHdnkKPmY4T")
-//        };
-
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         if (testings != null) {
             int len = testings.length();
             for (int i=0;i<len;i++){
@@ -112,8 +89,7 @@ public class Main3Activity extends AppCompatActivity {
                                     long id) {
 
                 String item = ((TextView) view).getText().toString();
-//                Array code = item.split("code=");
-//                app.addSomeSongs(code);
+
                 Log.d("==THIS IS PRINTING:", item);
                 Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
 
