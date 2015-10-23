@@ -70,8 +70,8 @@ public class MyApplication extends Application {
 
         // SAVING SONGS TO THE PARSE DB
         playList.put("songs", Arrays.asList());
-        playList.addAllUnique("songs", Arrays.asList("spotify:track:0xCmwofyCiXdhoBsMSNj2w", "spotify:track:3NFuE3uDOr6QUw9UZ9HzKo"));
-        playList.saveInBackground();
+//        playList.addAllUnique("songs", Arrays.asList("spotify:track:0xCmwofyCiXdhoBsMSNj2w", "spotify:track:3NFuE3uDOr6QUw9UZ9HzKo"));
+//        playList.saveInBackground();
     }
 
 }

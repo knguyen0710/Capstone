@@ -31,17 +31,11 @@ import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Album;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Track;
-import kaaes.spotify.webapi.android.models.Playlist;
-import kaaes.spotify.webapi.android.models.Tracks;
-import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
-import kaaes.spotify.webapi.android.models.PlaylistSimple;
+
 import retrofit.Callback;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.http.QueryMap;
-import retrofit.mime.TypedInput;
+
 
 // THIS ACTIVITY USES THE SPOTIFY WRAPPER since the SDK only works for authentication (still in beta)
 public class Main2Activity extends AppCompatActivity {
@@ -50,8 +44,7 @@ public class Main2Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
 
     }
 
@@ -63,22 +56,6 @@ public class Main2Activity extends AppCompatActivity {
 
 //        define the access token with the global variable set in MyApplication.java through the AndroidManifest directly under <application>
         api.setAccessToken(((MyApplication) this.getApplication()).getAccessToken());
-
-//        // OAUTH NOT WORKING FOR PLAYLIST CREATIION
-//        final Map<String,Object> options=new HashMap<>();
-//        options.put("name","My Playlist");
-//        options.put("public", true);
-//        spotify.createPlaylist("khn710", options, new Callback<Playlist>() {
-//            @Override
-//            public void success(Playlist playlist, Response response) {
-//                Log.d("Successful", response.toString());
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                Log.d("Playlist failure", error.toString());
-//            }
-//        });
 
 
 //  //Pager object is from Spotify and acts like pagination; must be imported
@@ -112,19 +89,6 @@ public class Main2Activity extends AppCompatActivity {
             });
 
 
-//        spotify.getAlbum("71WupOKqXgSrgg0CivZDHS", new Callback<Album>() {
-//            @Override
-//            public void success(Album album, Response response) {
-//                final TextView textViewToChange = (TextView) findViewById(R.id.textView);
-//                textViewToChange.setText(album.name);
-//                Log.d("Album success", album.name);
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                Log.d("Album failure", error.toString());
-//            }
-//        });
     }
 
 }
