@@ -13,11 +13,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.parse.ParseObject;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.OptionalDataException;
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -83,14 +86,23 @@ public class Main2Activity extends AppCompatActivity {
             spotify.getAlbumTracks("71WupOKqXgSrgg0CivZDHS", new Callback<Pager<Track>>() {
                 @Override
                 public void success(Pager<Track> tracks, Response response) {
-                   // specify that that trackList object is not of regular List object but also inherits from the Track object by putting it in carrots "List<Track>"
+                    // specify that that trackList object is not of regular List object but also inherits from the Track object by putting it in carrots "List<Track>"
                     List<Track> trackList = tracks.items;
+
                     String playIt = "";
                     for(Track t : trackList) {
                         playIt += t.name +" \n";
                     }
                     final TextView textViewToChange = (TextView) findViewById(R.id.textView);
-                textViewToChange.setText(playIt);
+                    textViewToChange.setText(playIt);
+
+
+                    ParseObject ninetiesPlayList = new ParseObject("NinetiesPlayList");
+                    ninetiesPlayList.put("90's music", Arrays.asList());
+                    for(Track t : trackList ) {
+                        ninetiesPlayList.addUnique("90's music", t.id);
+                    ninetiesPlayList.saveInBackground();
+                    }
                 }
 
                 @Override

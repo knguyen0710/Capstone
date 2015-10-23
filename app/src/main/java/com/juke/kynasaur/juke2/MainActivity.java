@@ -6,10 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.parse.Parse;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
-import com.parse.SignUpCallback;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
@@ -20,11 +17,8 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+
 
 public class MainActivity extends Activity implements
         PlayerNotificationCallback, ConnectionStateCallback {
@@ -53,31 +47,6 @@ public class MainActivity extends Activity implements
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
 
-        Parse.initialize(this, "NnUyDFvhp0q1CqMpYyMNYfKlJzJI7eNcbbhnu9cL", "CCW2gwpmLwHExTcHAbEzk7ZaeNYRFSvue74oaAzO");
-
-        ParseUser user = new ParseUser();
-        user.setUsername("my name");
-        user.setPassword("my pass");
-        user.setEmail("email@example.com");
-
-// other fields can be set just like with ParseObject
-        user.put("phone", "650-555-0000");
-
-        user.signUpInBackground(new SignUpCallback() {
-            @Override
-            public void done(com.parse.ParseException e) {
-                if (e == null) {
-                    // Hooray! Let them use the app now.
-                    Log.d("SUCCESS--", "Woop! It worked");
-                } else {
-                    // Sign up didn't succeed. Look at the ParseException
-                    // to figure out what went wrong
-                    Log.d("FAILURE --", e.toString());
-                }
-            }
-        });
-//  // PARSE RESPONSE OBJECT FOR TEST USER
-//  //   { "session_token": "uy7IGNYkMhvrwo2tzeS5KoZTb", "id": "XKcqaTKGCx", "data": { "email": "email@example.com", "username": "my name", "phone": "650-555-0000" }, "created_at": "2015-10-22T18:40:09Z", "updated_at": "2015-10-22T18:40:09Z" }
     }
 
     @Override
@@ -89,10 +58,6 @@ public class MainActivity extends Activity implements
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
                 Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
-               // SAVING SONGS TO THE PARSE DB
-                ParseObject playList = new ParseObject("PlayList");
-                playList.put("songs", Arrays.asList("spotify:track:0xCmwofyCiXdhoBsMSNj2w", "spotify:track:3NFuE3uDOr6QUw9UZ9HzKo"));
-                playList.saveInBackground();
 
 //                set the access token to a variable to be used across activities
                         ((MyApplication) this.getApplication()).setAccessToken(response.getAccessToken());

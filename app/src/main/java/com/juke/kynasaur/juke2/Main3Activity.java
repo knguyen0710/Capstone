@@ -12,6 +12,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.juke.kynasaur.juke2.models.Track;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.Parse;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -50,6 +58,22 @@ public class Main3Activity extends AppCompatActivity {
         final MyApplication app = ((MyApplication) this.getApplication());
 
         ListView listView = (ListView) findViewById(R.id.listView);
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("PlayList");
+        query.getInBackground("FkCpf3N2uA", new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    JSONArray here = object.getJSONArray("songs");
+                    Log.d("SUCCESS==", here.toString());
+                    // object will be your game score
+                } else {
+                    Log.d("FAILURE==", e.toString());
+                    // something went wrong
+                }
+            }
+        });
+
+
 
         Track[] songs = {
                 new Track("2 a.m.", "Adrian Marcel", "spotify:track:64Jyg9AzWl3AHdnkKPmY4T")
