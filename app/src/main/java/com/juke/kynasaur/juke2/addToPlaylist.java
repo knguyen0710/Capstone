@@ -62,7 +62,7 @@ public class AddToPlaylist extends AppCompatActivity {
                 if (trackList != null) {
                     for(Track t : trackList) {
                         list.add("+  " + t.name);
-                        songAndId.put("+  " + t.name, t.id);
+                        songAndId.put("+  " + t.name, t.uri);
                     }
                 }
 
