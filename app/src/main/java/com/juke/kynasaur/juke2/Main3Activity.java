@@ -19,10 +19,12 @@ import com.parse.ParseQuery;
 import com.parse.Parse;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
@@ -59,28 +61,47 @@ public class Main3Activity extends AppCompatActivity {
 
         ListView listView = (ListView) findViewById(R.id.listView);
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("PlayList");
-        query.getInBackground("FkCpf3N2uA", new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    JSONArray here = object.getJSONArray("songs");
-                    Log.d("SUCCESS==", here.toString());
-                    // object will be your game score
-                } else {
-                    Log.d("FAILURE==", e.toString());
-                    // something went wrong
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("PlayList");
+//        query.getInBackground("FkCpf3N2uA", new GetCallback<ParseObject>() {
+//            public void done(ParseObject object, ParseException e) {
+//                if (e == null) {
+//                    JSONArray here = object.getJSONArray("songs");
+//                    Log.d("SUCCESS==", here.toString());
+//                    // object will be your game score
+//                } else {
+//                    Log.d("FAILURE==", e.toString());
+//                    // something went wrong
+//                }
+//            }
+//        });
+
+        // USE THIS TO TRY TO PUT IT INTO THE LISTVIEW
+        JSONArray testings = app.playList.getJSONArray("songs");
+        try {
+            System.out.println(testings.get(1));
+//            System.out: spotify:track:0xCmwofyCiXdhoBsMSNj2w;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+//        Track[] songs = {
+//                new Track("2 a.m.", "Adrian Marcel", "spotify:track:64Jyg9AzWl3AHdnkKPmY4T")
+//        };
+
+        ArrayList<String> list = new ArrayList<String>();
+        if (testings != null) {
+            int len = testings.length();
+            for (int i=0;i<len;i++){
+                try {
+                    list.add(testings.get(i).toString());
+                } catch(JSONException e) {
+                   Log.d("FAILURE", e.toString());
                 }
             }
-        });
-
-
-
-        Track[] songs = {
-                new Track("2 a.m.", "Adrian Marcel", "spotify:track:64Jyg9AzWl3AHdnkKPmY4T")
-        };
+        }
 
         ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_1, songs);
+                android.R.layout.simple_list_item_1, list);
 
         listView.setAdapter(adapter);
 
