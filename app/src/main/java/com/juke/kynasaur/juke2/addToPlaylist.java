@@ -41,7 +41,6 @@ public class AddToPlaylist extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_to_playlist);
 
-
         final SpotifyApi api = new SpotifyApi();
 
         SpotifyService spotify = api.getService();
