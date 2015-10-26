@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+// TO-DO: MOVE SPOTIFY LOG IN FROM MAIN ACTIVITY TO HOME ACTIVITY
 
 public class MainActivity extends Activity implements
         PlayerNotificationCallback, ConnectionStateCallback {
@@ -78,8 +79,10 @@ public class MainActivity extends Activity implements
                     public void onInitialized(Player player) {
                         mPlayer.addConnectionStateCallback(MainActivity.this);
                         mPlayer.addPlayerNotificationCallback(MainActivity.this);
-                        // PLAYLIST CREATION - AUTOMATED PLAY AFTER EACH SONG
 
+//                        Intent refresh = new Intent(MainActivity.this, MainActivity.class);
+//                        startActivity(refresh);
+                        // PLAYLIST FROM PARSE - AUTOMATED PLAY AFTER EACH SONG
                         JSONArray songQueue = app.playList.getJSONArray("songs");
                         if (songQueue.length() > 0) {
                             List songList = new ArrayList();
@@ -109,6 +112,8 @@ public class MainActivity extends Activity implements
 //                            MainActivity.this.finish();
                         }
                     }
+
+
 
                     @Override
                     public void onError(Throwable throwable) {

@@ -1,5 +1,6 @@
 package com.juke.kynasaur.juke2;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
@@ -87,6 +88,10 @@ public class addToPlaylist extends AppCompatActivity {
         });
 
 
+    }
+
+    public void backToPlayer(View v) {
+        startActivity(new Intent(addToPlaylist.this, MainActivity.class));
     }
 
 }
