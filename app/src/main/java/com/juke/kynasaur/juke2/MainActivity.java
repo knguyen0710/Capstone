@@ -77,8 +77,8 @@ public class MainActivity extends Activity implements
 
                     @Override
                     public void onInitialized(Player player) {
-                        mPlayer.addConnectionStateCallback(MainActivity.this);
-                        mPlayer.addPlayerNotificationCallback(MainActivity.this);
+                        player.addConnectionStateCallback(MainActivity.this);
+                        player.addPlayerNotificationCallback(MainActivity.this);
 
 //                        Intent refresh = new Intent(MainActivity.this, MainActivity.class);
 //                        startActivity(refresh);
@@ -93,7 +93,7 @@ public class MainActivity extends Activity implements
                                     Log.d("ERROR==", e.toString());
                                 }
                             }
-                            mPlayer.play(songList);
+                            player.play(songList);
 
                         } else {
                             TextView noSongs = (TextView)findViewById(R.id.needSongs);
