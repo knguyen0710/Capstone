@@ -11,7 +11,15 @@
     android:foreground="#1c24242a"
     android:background="#25466f">
 
-    <TextView android:text="90's Beats-N-Harmony" android:layout_width="wrap_content"
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/speaker"
+        android:scaleType="centerCrop"
+        android:id="@+id/player" />
+
+    <TextView android:text="now playing..." android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView2"
         android:layout_alignParentTop="true"
@@ -19,44 +27,59 @@
         android:textSize="20dp"
         android:textColor="#c5e6ea" />
 
-    <SeekBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/seekBar"
-        android:layout_marginBottom="121dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Play"
-        android:id="@+id/play_button"
+        android:id="@+id/bPlay"
         android:onClick="playIt"
-        android:layout_above="@+id/seekBar"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2"
-        android:layout_marginBottom="30dp" />
+        android:layout_marginBottom="95dp"
+        android:layout_alignBottom="@+id/player"
+        android:layout_alignRight="@+id/bSongs"
+        android:layout_alignEnd="@+id/bSongs" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Pause"
         android:id="@+id/pause_button"
-        android:layout_alignTop="@+id/play_button"
-        android:layout_toRightOf="@+id/play_button"
-        android:layout_toEndOf="@+id/play_button"
-        android:onClick="pauseIt"/>
+        android:onClick="pauseIt"
+        android:layout_alignTop="@+id/bPlay"
+        android:layout_toLeftOf="@+id/bSongs"
+        android:layout_toStartOf="@+id/bSongs" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Song List"
-        android:id="@+id/button"
-        android:layout_alignTop="@+id/seekBar"
+        android:id="@+id/bSongs"
+        android:onClick="songList"
+        android:layout_alignBottom="@+id/player"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:id="@+id/bSkip"
+        android:layout_alignTop="@+id/bPlay"
+        android:layout_toRightOf="@+id/bSongs"
+        android:layout_toEndOf="@+id/bSongs"
+        android:onClick="nextIt"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="no songs in playlist yet.. please add to queue.."
+        android:id="@+id/needSongs"
+        android:textColor="#3b517c"
+        android:textStyle="bold|italic"
+        android:visibility="invisible"
+        android:gravity="center"
+        android:layout_marginTop="72dp"
+        android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
-        android:onClick="songList"/>
+        android:layout_margin="25dp"/>
 
 </RelativeLayout>

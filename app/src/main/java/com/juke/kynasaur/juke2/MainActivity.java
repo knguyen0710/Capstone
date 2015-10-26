@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.parse.ParseObject;
 import com.spotify.sdk.android.player.Spotify;
@@ -17,7 +19,12 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
 public class MainActivity extends Activity implements
@@ -64,15 +71,43 @@ public class MainActivity extends Activity implements
 //                set MyApplication variable to pull playlist variable on line 72
                final MyApplication app = ((MyApplication) this.getApplication());
                 mPlayer = Spotify.getPlayer(playerConfig, this, new Player.InitializationObserver() {
-                    @Override
                     // use "void" for methods in which nothing is explicitly returned
                     // here, a song is played onInitialized but nothing is actually returned
+
+                    @Override
                     public void onInitialized(Player player) {
                         mPlayer.addConnectionStateCallback(MainActivity.this);
                         mPlayer.addPlayerNotificationCallback(MainActivity.this);
                         // PLAYLIST CREATION - AUTOMATED PLAY AFTER EACH SONG
-                        app.addSomeSongs("spotify:track:0xCmwofyCiXdhoBsMSNj2w");
-                        mPlayer.play(app.getSomeSongs());
+
+                        JSONArray songQueue = app.playList.getJSONArray("songs");
+                        if (songQueue.length() > 0) {
+                            List songList = new ArrayList();
+                            for (int i = 0; i < songQueue.length(); i++) {
+                                try {
+                                    songList.add(songQueue.get(i));
+                                } catch (JSONException e) {
+                                    Log.d("ERROR==", e.toString());
+                                }
+                            }
+                            mPlayer.play(songList);
+
+                        } else {
+                            TextView noSongs = (TextView)findViewById(R.id.needSongs);
+                            noSongs.setVisibility(View.VISIBLE);
+
+                            Button bPlay, bPause, bSkip;
+                            bPlay = (Button)findViewById(R.id.bPlay);
+                            bPause = (Button)findViewById(R.id.pause_button);
+                            bSkip = (Button)findViewById(R.id.bSkip);
+
+                            bPlay.setVisibility(View.INVISIBLE);
+                            bPause.setVisibility(View.INVISIBLE);
+                            bSkip.setVisibility(View.INVISIBLE);
+
+//                            CLOSES THE APPLICATION ENTIRELY
+//                            MainActivity.this.finish();
+                        }
                     }
 
                     @Override
@@ -85,17 +120,19 @@ public class MainActivity extends Activity implements
     }
 
     public void pauseIt(View v) {
-        // TO DO -- add functionality to pause current song
         mPlayer.pause();
     }
 
     public void playIt(View v) {
-        // TO DO -- add functionality to play current queued song
         mPlayer.resume();
     }
 
+    public void nextIt(View v) {
+        mPlayer.skipToNext();
+    }
+
     public void songList(View v) {
-        startActivity(new Intent(MainActivity.this, Main2Activity.class));
+        startActivity(new Intent(MainActivity.this, addToPlaylist.class));
     }
 
     @Override

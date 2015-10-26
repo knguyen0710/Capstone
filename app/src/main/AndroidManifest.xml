@@ -20,6 +20,7 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
+
         </activity>
         // Needed for LoginActivity to work
         <activity
@@ -45,10 +46,9 @@
             android:name=".Main3Activity"
             android:label="@string/title_activity_main3"
             android:theme="@style/AppTheme.NoActionBar" >
-
         </activity>
         <activity
-            android:name=".AddToPlaylist"
+            android:name=".addToPlaylist"
             android:label="@string/title_activity_add_to_playlist"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
@@ -56,6 +56,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".Home"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar" >
+
         </activity>
     </application>
 

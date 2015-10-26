@@ -1,10 +1,8 @@
 package com.juke.kynasaur.juke2;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,14 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.ParseObject;
-import com.spotify.sdk.android.player.Spotify;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,9 +23,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-import static android.R.layout.simple_list_item_1;
-
-public class AddToPlaylist extends AppCompatActivity {
+public class addToPlaylist extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +54,9 @@ public class AddToPlaylist extends AppCompatActivity {
                     }
                 }
 
-                ArrayAdapter adapter = new ArrayAdapter(AddToPlaylist.this,
+                ArrayAdapter adapter = new ArrayAdapter(addToPlaylist.this,
                         android.R.layout.simple_list_item_1, list);
+
 
                 listView.setAdapter(adapter);
 
@@ -77,7 +67,7 @@ public class AddToPlaylist extends AppCompatActivity {
                                             long id) {
 
                         String item = ((TextView) view).getText().toString();
-                        final MyApplication app = ((MyApplication) AddToPlaylist.this.getApplication());
+                        final MyApplication app = ((MyApplication) addToPlaylist.this.getApplication());
                         app.playList.add("songs", songAndId.get(item));
                         app.playList.saveInBackground();
 
