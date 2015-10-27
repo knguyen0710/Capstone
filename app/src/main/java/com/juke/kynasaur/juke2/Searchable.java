@@ -9,6 +9,16 @@ package com.juke.kynasaur.juke2;
         import android.widget.*;
 
         import java.util.ArrayList;
+        import java.util.HashMap;
+        import java.util.Map;
+
+        import kaaes.spotify.webapi.android.SpotifyApi;
+        import kaaes.spotify.webapi.android.SpotifyService;
+        import kaaes.spotify.webapi.android.models.TracksPager;
+        import retrofit.Callback;
+        import retrofit.RetrofitError;
+        import retrofit.client.Response;
+        import retrofit.http.QueryMap;
 
 public class Searchable extends Activity implements SearchView.OnQueryTextListener,
         SearchView.OnCloseListener {
@@ -19,10 +29,13 @@ public class Searchable extends Activity implements SearchView.OnQueryTextListen
 //    RESULT LIST REPLACES EXAMPLE NAME LIST
     private ArrayList<String> resultList;
 
+    final SpotifyApi api = new SpotifyApi();
+
+    SpotifyService spotify = api.getService();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_searchable);
 
         resultList = new ArrayList<>();
@@ -86,8 +99,22 @@ public class Searchable extends Activity implements SearchView.OnQueryTextListen
      *
      * @param query Query used for performing the search
      */
-    private void displayResults(String query) {
-            Log.d("SEARCHED==", query);
+    private void displayResults(final String query) {
+        HashMap<String, Object> options = new HashMap();
+        options.put("limit", 5);
+        if (query != null) {
+            spotify.searchTracks(query, options, new Callback<TracksPager>() {
+                @Override
+                public void success(TracksPager tracksPager, Response response) {
+                    Log.d("SEARCHED==", query);
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.d("FAILURE", error.toString());
+                }
+            });
+        }
 //        Cursor cursor = mDbHelper.searchByInputText((query != null ? query : "@@@@"));
 //
 //        if (cursor != null) {
