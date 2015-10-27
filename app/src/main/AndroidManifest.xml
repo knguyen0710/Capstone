@@ -55,13 +55,16 @@
             android:name=".addToPlaylist"
             android:label="@string/title_activity_add_to_playlist"
             android:theme="@style/AppTheme.NoActionBar" >
-
         </activity>
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" >
-
+        </activity>
+        <activity
+            android:name=".SearchCategories"
+            android:label="@string/title_activity_search_categories"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
 

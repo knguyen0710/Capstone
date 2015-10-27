@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.parse.ParseObject;
+import com.spotify.sdk.android.player.PlayerStateCallback;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
@@ -75,6 +76,7 @@ public class MainActivity extends Activity implements
                     // use "void" for methods in which nothing is explicitly returned
                     // here, a song is played onInitialized but nothing is actually returned
 
+
                     @Override
                     public void onInitialized(Player player) {
                         player.addConnectionStateCallback(MainActivity.this);
@@ -111,6 +113,21 @@ public class MainActivity extends Activity implements
 //                            CLOSES THE APPLICATION ENTIRELY
 //                            MainActivity.this.finish();
                         }
+
+
+//                        USE PLAYER NOTIFICATION TO SEE END OF SONG TO DISPLAY CURRENT SONG??
+//                        mPlayer.addPlayerNotificationCallback(new PlayerNotificationCallback() {
+//                            @Override
+//                            public void onPlaybackEvent (EventType eventType, PlayerState playerState){
+//                                if (eventType == EventType.TRACK_CHANGED) {
+//                                    //do something
+//                                }
+//                            }
+//
+//                            public void onPlaybackError(ErrorType errorType, String string) {
+//
+//                            };
+//                        });
                     }
 
 
