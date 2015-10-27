@@ -19,5 +19,10 @@
     <string name="title_activity_main3">Main3Activity</string>
     <string name="title_activity_add_to_playlist">AddToPlaylist</string>
     <string name="title_activity_home">Home</string>
-    <string name="title_activity_search_categories">SearchCategories</string>
+    <string name="search_hint">Search by Song Title</string>
+    <string name="title_activity_searchable">Searchable</string>
+    <string name="title_activity_search_results">SearchResults</string>
+    <string name="search_label">Search</string>
+
+
 </resources>
