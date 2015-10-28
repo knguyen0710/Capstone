@@ -1,22 +1,23 @@
 package com.juke.kynasaur.juke2;
 
-        import android.app.Activity;
-        import android.os.Bundle;
-        import android.util.Log;
-        import android.view.View;
-        import android.widget.*;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.*;
 
-        import java.util.ArrayList;
-        import java.util.HashMap;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-        import kaaes.spotify.webapi.android.SpotifyApi;
-        import kaaes.spotify.webapi.android.SpotifyService;
-        import kaaes.spotify.webapi.android.models.Track;
-        import kaaes.spotify.webapi.android.models.TracksPager;
-        import retrofit.Callback;
-        import retrofit.RetrofitError;
-        import retrofit.client.Response;
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Track;
+import kaaes.spotify.webapi.android.models.TracksPager;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class Searchable extends Activity implements SearchView.OnQueryTextListener,
@@ -81,6 +82,16 @@ public class Searchable extends Activity implements SearchView.OnQueryTextListen
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        if (newText.length() < 1) {
+            Button button = (Button) findViewById(R.id.nineties);
+            button.setVisibility(View.VISIBLE);
+
+            TextView text = (TextView) findViewById(R.id.suggestions);
+            text.setText("pssst... here's some suggestions:");
+
+            ListView listView = (ListView) findViewById(R.id.list);
+            listView.setVisibility(View.GONE);
+        }
         myList.setAdapter(defaultAdapter);
         return false;
     }
@@ -145,4 +156,23 @@ public class Searchable extends Activity implements SearchView.OnQueryTextListen
             });
         }
     }
+
+    public void nineties(View v) {
+        Intent intent = new Intent(Searchable.this, addToPlaylist.class);
+        intent.putExtra("decade", "71WupOKqXgSrgg0CivZDHS");
+        startActivity(intent);
+    }
+
+    public void eighties(View v) {
+        Intent intent = new Intent(Searchable.this, addToPlaylist.class);
+        intent.putExtra("decade", "4PbG9Ygfp3vDNhe9yKH1DN");
+        startActivity(intent);
+    }
+
+    public void seventies(View v) {
+        Intent intent = new Intent(Searchable.this, addToPlaylist.class);
+        intent.putExtra("decade", "2uRb5ak9Qyo1nhlTViw8MZ");
+        startActivity(intent);
+    }
+
 }

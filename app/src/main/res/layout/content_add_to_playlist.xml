@@ -10,26 +10,29 @@
     tools:showIn="@layout/activity_add_to_playlist"
     tools:context="com.juke.kynasaur.juke2.addToPlaylist">
 
-    <!--<ImageView-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--android:src="@drawable/keys"-->
-        <!--android:scaleType="centerCrop" />-->
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/microphone"
+        android:scaleType="centerCrop" />
 
     <ListView
+        android:layout_marginTop="100dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/addSong"></ListView>
 
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back to player"
-        android:id="@+id/bPlayer"
-        android:layout_alignBottom="@+id/addSong"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="backToPlayer"/>
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Decade"
+        android:id="@+id/list_header"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold|italic"
+        android:textSize="30dp" />
 
 
 </RelativeLayout>

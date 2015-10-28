@@ -26,10 +26,16 @@ import retrofit.client.Response;
 
 public class addToPlaylist extends AppCompatActivity {
 
+    String decade;
+    String nineties = "71WupOKqXgSrgg0CivZDHS";
+    String eighties = "4PbG9Ygfp3vDNhe9yKH1DN";
+    String seventies = "2uRb5ak9Qyo1nhlTViw8MZ";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_to_playlist);
+        decade = getIntent().getExtras().getString("decade");
 
         final SpotifyApi api = new SpotifyApi();
 
@@ -39,9 +45,21 @@ public class addToPlaylist extends AppCompatActivity {
 
         final HashMap<String, String> songAndId = new HashMap<>();
 
-        spotify.getAlbumTracks("71WupOKqXgSrgg0CivZDHS", new Callback<Pager<Track>>() {
+        spotify.getAlbumTracks(decade, new Callback<Pager<Track>>() {
             @Override
             public void success(Pager<Track> tracks, Response response) {
+                Log.d("DECADES", decade + "  " + nineties);
+                TextView set_header = (TextView) findViewById(R.id.list_header);
+                if (decade.equals(nineties)) {
+                    set_header.setText("Hits from the 90's");
+                } else if (decade.equals(eighties)) {
+                    set_header.setText("Rockin' 80's");
+                } else if (decade.equals(seventies)) {
+                    set_header.setText("70's Boogie Beats");
+                } else {
+                    Log.d("FAILURE==", "decade variable not properly transferred from Searchable Activity");
+                }
+
                 // specify that that trackList object is not of regular List object but also inherits from the Track object by putting it in carrots "List<Track>"
                 List<Track> trackList = tracks.items;
 
@@ -49,7 +67,7 @@ public class addToPlaylist extends AppCompatActivity {
 
                 ArrayList<String> list = new ArrayList<>();
                 if (trackList != null) {
-                    for(Track t : trackList) {
+                    for (Track t : trackList) {
                         list.add("+  " + t.name);
                         songAndId.put("+  " + t.name, t.uri);
                     }
@@ -90,8 +108,5 @@ public class addToPlaylist extends AppCompatActivity {
 
     }
 
-    public void backToPlayer(View v) {
-        startActivity(new Intent(addToPlaylist.this, MainActivity.class));
-    }
 
 }

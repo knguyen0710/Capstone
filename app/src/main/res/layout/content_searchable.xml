@@ -9,12 +9,20 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_searchable" tools:context="com.juke.kynasaur.juke2.Searchable">
 
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/microphone"
+        android:scaleType="centerCrop"
+        android:background="#000000"/>
+
     <SearchView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/search"
         android:queryHint="@string/search_hint"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:layout_margin="10dp"/>
 
     <ListView android:id="@+id/list"
         android:layout_width="wrap_content"
@@ -35,7 +43,8 @@
         android:layout_below="@+id/search"
         android:layout_centerInParent="true"
         android:visibility="visible"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        android:layout_margin="15dp"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -43,11 +52,36 @@
         android:id="@+id/nineties"
         android:text="the 90's"
         android:gravity="center"
-        android:layout_below="@+id/suggestions"
-        android:layout_margin="10dp"
         android:visibility="visible"
-        android:layout_centerVertical="true"
-        android:layout_centerInParent="true"/>
+        android:onClick="nineties"
+        android:background="#68defdf9"
+        android:layout_marginTop="68dp"
+        android:layout_below="@+id/suggestions"
+        android:layout_alignLeft="@+id/eighties"
+        android:layout_alignStart="@+id/eighties" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="the 80's"
+        android:id="@+id/eighties"
+        android:onClick="eighties"
+        android:background="#68defdf9"
+        android:layout_marginTop="57dp"
+        android:layout_below="@+id/nineties"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="the 70's"
+        android:id="@+id/seventies"
+        android:layout_marginTop="53dp"
+        android:background="#68defdf9"
+        android:layout_below="@+id/eighties"
+        android:layout_alignLeft="@+id/eighties"
+        android:layout_alignStart="@+id/eighties"
+        android:onClick="seventies"/>
 
 
 </RelativeLayout>
