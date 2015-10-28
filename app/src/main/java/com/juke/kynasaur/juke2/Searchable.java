@@ -26,7 +26,7 @@ public class Searchable extends Activity implements SearchView.OnQueryTextListen
     private SearchView searchView;
     private MyCustomAdapter defaultAdapter;
 //    RESULT LIST REPLACES EXAMPLE NAME LIST
-    private ArrayList<String> resultList;
+    final ArrayList<String> resultList = new ArrayList<>();
 
     final SpotifyApi api = new SpotifyApi();
 
@@ -43,8 +43,8 @@ public class Searchable extends Activity implements SearchView.OnQueryTextListen
         //show the ListView on the screen
         // The adapter MyCustomAdapter is responsible for maintaining the data backing this nameList and for producing
         // a view to represent an item in that data set.
-//        defaultAdapter = new MyCustomAdapter(Searchable.this, resultList);
-//        myList.setAdapter(defaultAdapter);
+        defaultAdapter = new MyCustomAdapter(Searchable.this, resultList);
+        myList.setAdapter(defaultAdapter);
 
         //prepare the SearchView
         searchView = (SearchView) findViewById(R.id.search);
@@ -85,12 +85,7 @@ public class Searchable extends Activity implements SearchView.OnQueryTextListen
         return false;
     }
 
-    /**
-     * Method used for performing the search and displaying the results. This method is called every time a letter
-     * is introduced in the search field.
-     *
-     * @param query Query used for performing the search
-     */
+//    RESULTS DISPLAYED AFTER THE QUERY TEXT HAS BEEN SUBMITTED via THIS METHOD
     private void displayResults(final String query) {
         HashMap<String, Object> options = new HashMap();
         options.put("limit", 5);
@@ -102,10 +97,11 @@ public class Searchable extends Activity implements SearchView.OnQueryTextListen
                     Log.d("SEARCHED==", tracks.get(0).toString());
 
                     final HashMap<String, String> songAndId = new HashMap<>();
-                    ListView listView = (ListView) findViewById(R.id.addSong);
-
+                    ListView listView = (ListView) findViewById(R.id.list);
+                    ArrayList<String> resultList = new ArrayList<>();
                     for(Track t : tracks) {
-                        resultList.add("+  " + t.name);
+
+                        resultList.add("+  " + t.name + " by " + t.artists.get(0).name);
                         songAndId.put("+  " + t.name, t.uri);
                     }
 
