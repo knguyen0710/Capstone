@@ -102,7 +102,7 @@ public class Searchable extends Activity implements SearchView.OnQueryTextListen
                     for(Track t : tracks) {
 
                         resultList.add("+  " + t.name + " by " + t.artists.get(0).name);
-                        songAndId.put("+  " + t.name, t.uri);
+                        songAndId.put("+  " + t.name + " by " + t.artists.get(0).name, t.uri);
                     }
 
                     ArrayAdapter adapter = new ArrayAdapter(Searchable.this,
@@ -136,57 +136,5 @@ public class Searchable extends Activity implements SearchView.OnQueryTextListen
                 }
             });
         }
-//        Cursor cursor = mDbHelper.searchByInputText((query != null ? query : "@@@@"));
-//
-//        if (cursor != null) {
-//
-//            String[] from = new String[]
-//
-//            // Specify the view where we want the results to go
-//            int[] to = new int[] {R.id.search_result_text_view};
-//
-//            // Create a simple cursor adapter to keep the search data
-//            SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(this, R.layout.result_search_item, cursor, from, to);
-//            myList.setAdapter(cursorAdapter);
-//
-//            // Click listener for the searched item that was selected
-//            myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                    // Get the cursor, positioned to the corresponding row in the result set
-//                    Cursor cursor = (Cursor) myList.getItemAtPosition(position);
-//
-//                    // Get the state's capital from this row in the database.
-//                    String selectedName = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-//                    Toast.makeText(MyActivity.this, selectedName, Toast.LENGTH_SHORT).show();
-//
-//                    // Set the default adapter
-//                    myList.setAdapter(defaultAdapter);
-//
-//                    // Find the position for the original list by the selected name from search
-//                    for (int pos = 0; pos < nameList.size(); pos++) {
-//                        if (nameList.get(pos).equals(selectedName)){
-//                            position = pos;
-//                            break;
-//                        }
-//                    }
-//
-//                    // Create a handler. This is necessary because the adapter has just been set on the list again and
-//                    // the list might not be finished setting the adapter by the time we perform setSelection.
-//                    Handler handler = new Handler();
-//                    final int finalPosition = position;
-//                    handler.post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//
-//                            myList.setSelection(finalPosition);
-//                        }
-//                    });
-//
-//                    searchView.setQuery("",true);
-//                }
-//            });
-
-//        }
     }
 }
