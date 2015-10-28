@@ -93,11 +93,19 @@ public class Searchable extends Activity implements SearchView.OnQueryTextListen
             spotify.searchTracks(query, options, new Callback<TracksPager>() {
                 @Override
                 public void success(TracksPager tracksPager, Response response) {
+                    Button button = (Button) findViewById(R.id.nineties);
+                    button.setVisibility(View.INVISIBLE);
+
+                    TextView text = (TextView) findViewById(R.id.suggestions);
+                    text.setText("Top 5 search results for '" + query + "'");
+
+                    ListView listView = (ListView) findViewById(R.id.list);
+                    listView.setVisibility(View.VISIBLE);
+
                     List<Track> tracks = tracksPager.tracks.items;
                     Log.d("SEARCHED==", tracks.get(0).toString());
 
                     final HashMap<String, String> songAndId = new HashMap<>();
-                    ListView listView = (ListView) findViewById(R.id.list);
                     ArrayList<String> resultList = new ArrayList<>();
                     for(Track t : tracks) {
 

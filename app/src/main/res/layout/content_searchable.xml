@@ -13,7 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/search"
-        android:queryHint="@string/search_hint" />
+        android:queryHint="@string/search_hint"
+        android:layout_marginBottom="20dp"/>
 
     <ListView android:id="@+id/list"
         android:layout_width="wrap_content"
@@ -21,32 +22,32 @@
         android:transcriptMode="alwaysScroll"
         android:cacheColorHint="#00000000"
         android:layout_marginTop="100dp"
-        android:listSelector="@android:color/transparent" />
+        android:listSelector="@android:color/transparent"
+        android:visibility="gone"/>
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/suggestions"
+        android:id="@+id/suggestions"
+        android:layout_below="@+id/search"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        android:textStyle="italic" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nineties"
+        android:text="the 90's"
         android:gravity="center"
-        android:id="@+id/footer">
+        android:layout_below="@+id/suggestions"
+        android:layout_margin="10dp"
+        android:visibility="visible"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Don&apos;t know what your ears are craving? See some suggestions below:"
-            android:id="@+id/textView5"
-            android:layout_above="@+id/nineties"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:id="@+id/nineties"
-            android:text="the 90's"
-            android:gravity="center"/>
-    </RelativeLayout>
 
 </RelativeLayout>
