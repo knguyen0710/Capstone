@@ -1,24 +1,23 @@
 package com.juke.kynasaur.juke2;
 
         import android.app.Activity;
-        import android.database.Cursor;
         import android.os.Bundle;
-        import android.os.Handler;
         import android.util.Log;
         import android.view.View;
         import android.widget.*;
 
         import java.util.ArrayList;
         import java.util.HashMap;
-        import java.util.Map;
+        import java.util.List;
 
         import kaaes.spotify.webapi.android.SpotifyApi;
         import kaaes.spotify.webapi.android.SpotifyService;
+        import kaaes.spotify.webapi.android.models.Track;
         import kaaes.spotify.webapi.android.models.TracksPager;
         import retrofit.Callback;
         import retrofit.RetrofitError;
         import retrofit.client.Response;
-        import retrofit.http.QueryMap;
+
 
 public class Searchable extends Activity implements SearchView.OnQueryTextListener,
         SearchView.OnCloseListener {
@@ -38,21 +37,14 @@ public class Searchable extends Activity implements SearchView.OnQueryTextListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchable);
 
-        resultList = new ArrayList<>();
-
-        //for simplicity we will add the same name for 20 times to populate the nameList view
-//        for (int i = 0; i < 20; i++) {
-//            nameList.add("Diana" + i);
-//        }
-
         //relate the listView from java to the one created in xml
         myList = (ListView) findViewById(R.id.list);
 
         //show the ListView on the screen
         // The adapter MyCustomAdapter is responsible for maintaining the data backing this nameList and for producing
         // a view to represent an item in that data set.
-        defaultAdapter = new MyCustomAdapter(Searchable.this, resultList);
-        myList.setAdapter(defaultAdapter);
+//        defaultAdapter = new MyCustomAdapter(Searchable.this, resultList);
+//        myList.setAdapter(defaultAdapter);
 
         //prepare the SearchView
         searchView = (SearchView) findViewById(R.id.search);
@@ -80,7 +72,7 @@ public class Searchable extends Activity implements SearchView.OnQueryTextListen
     @Override
     public boolean onQueryTextSubmit(String query) {
         if (!query.isEmpty()) {
-            displayResults(query + "*");
+            displayResults(query);
         } else {
             myList.setAdapter(defaultAdapter);
         }
@@ -106,7 +98,40 @@ public class Searchable extends Activity implements SearchView.OnQueryTextListen
             spotify.searchTracks(query, options, new Callback<TracksPager>() {
                 @Override
                 public void success(TracksPager tracksPager, Response response) {
-                    Log.d("SEARCHED==", query);
+                    List<Track> tracks = tracksPager.tracks.items;
+                    Log.d("SEARCHED==", tracks.get(0).toString());
+
+                    final HashMap<String, String> songAndId = new HashMap<>();
+                    ListView listView = (ListView) findViewById(R.id.addSong);
+
+                    for(Track t : tracks) {
+                        resultList.add("+  " + t.name);
+                        songAndId.put("+  " + t.name, t.uri);
+                    }
+
+                    ArrayAdapter adapter = new ArrayAdapter(Searchable.this,
+                            android.R.layout.simple_list_item_1, resultList);
+
+                    listView.setAdapter(adapter);
+
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position,
+                                                long id) {
+
+                            String item = ((TextView) view).getText().toString();
+                            final MyApplication app = ((MyApplication) Searchable.this.getApplication());
+                            app.playList.add("songs", songAndId.get(item));
+                            app.playList.saveInBackground();
+
+                            Log.d("==SUCCESS==", songAndId.get(item));
+
+                            Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
+
+                        }
+                    });
+
+
                 }
 
                 @Override
