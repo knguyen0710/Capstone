@@ -2,12 +2,12 @@ package com.juke.kynasaur.juke2;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 
 import com.juke.kynasaur.juke2.models.Track;
 import com.spotify.sdk.android.player.PlayerStateCallback;
@@ -20,15 +20,27 @@ import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.OkHttpClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
+
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 
 // TO-DO: MOVE SPOTIFY LOG IN FROM MAIN ACTIVITY TO HOME ACTIVITY
@@ -128,14 +140,16 @@ public class MainActivity extends Activity implements
                             public void onPlaybackEvent (EventType eventType, PlayerState playerState){
                                 Log.d("THIS IS THE EVENT==", eventType.toString());
                                 if (playerState.playing) {
-//                                    String current = playerState.trackUri;
-//                                    kaaes.spotify.webapi.android.models.Track playing = spotify.getTrack(current);
-//                                    String songTitle = playing.name;
+//                                    GetSongTitle title = new GetSongTitle();
+//                                    title.execute();
+                                    String current = playerState.trackUri;
+                                    kaaes.spotify.webapi.android.models.Track playing = spotify.getTrack(current);
+                                    String songTitle = playing.name;
 
-                                    TextView title = (TextView) findViewById(R.id.playing);
+                                    TextView findTitle = (TextView) findViewById(R.id.playing);
                                     TextView noSongs = (TextView) findViewById(R.id.needSongs);
 //                                    title.setText(songTitle);
-                                    title.setVisibility(View.VISIBLE);
+                                    findTitle.setVisibility(View.VISIBLE);
                                     noSongs.setVisibility(View.INVISIBLE);
 
                                     Log.d("NOW PLAYING==", playerState.trackUri);
@@ -235,5 +249,33 @@ public class MainActivity extends Activity implements
         // VERY IMPORTANT! This must always be called or else you will leak resources
         Spotify.destroyPlayer(this);
         super.onDestroy();
+    }
+
+
+    private class GetSongTitle extends AsyncTask<URL, Void, String> {
+        private String url;
+
+        public GetSongTitle(String url, Void progress, String response) {
+            this.url = url;
+        }
+
+        @Override
+        protected String doInBackground(URL... urls) {
+            OkHttpClient client = new OkHttpClient();
+
+            Request request = new Request.Builder()
+                        .url(url)
+                        .build();
+
+            try {
+                Response response = client.newCall(request).execute();
+                return response.body().toString();
+            } catch (IOException e) {
+                Log.d("HTTP ERROR==", e.toString());
+                e.printStackTrace();
+            }
+
+            return null;
+        }
     }
 }
