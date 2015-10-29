@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.juke.kynasaur.juke2.models.Track;
-import com.spotify.sdk.android.player.PlayerStateCallback;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
@@ -20,17 +18,12 @@ import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
-import com.squareup.okhttp.Call;
 import com.squareup.okhttp.OkHttpClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +31,9 @@ import java.util.List;
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 
-import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.squareup.okhttp.ResponseBody;
 
 
 // TO-DO: MOVE SPOTIFY LOG IN FROM MAIN ACTIVITY TO HOME ACTIVITY
@@ -139,23 +132,17 @@ public class MainActivity extends Activity implements
                             @Override
                             public void onPlaybackEvent (EventType eventType, PlayerState playerState){
                                 Log.d("THIS IS THE EVENT==", eventType.toString());
-                                if (playerState.playing) {
-//                                    GetSongTitle title = new GetSongTitle();
-//                                    title.execute();
-                                    String current = playerState.trackUri;
-                                    kaaes.spotify.webapi.android.models.Track playing = spotify.getTrack(current);
-                                    String songTitle = playing.name;
+                                if (eventType.equals(EventType.TRACK_CHANGED) || eventType.equals(EventType.SKIP_NEXT)){
+                                    String uri = playerState.trackUri;
+                                    GetSongTitle title = new GetSongTitle();
+                                    title.execute();
 
                                     TextView findTitle = (TextView) findViewById(R.id.playing);
                                     TextView noSongs = (TextView) findViewById(R.id.needSongs);
 //                                    title.setText(songTitle);
                                     findTitle.setVisibility(View.VISIBLE);
                                     noSongs.setVisibility(View.INVISIBLE);
-
                                     Log.d("NOW PLAYING==", playerState.trackUri);
-
-                                } else if (eventType.equals(EventType.TRACK_CHANGED) || eventType.equals(EventType.SKIP_NEXT)){
-                                    Log.d("CHANGED==", "IT HIT THE ELSE STATEMENT");
                                 } else if (eventType.equals(EventType.END_OF_CONTEXT)){
                                     Log.d("THE END==", "SHOULD HIT THIS AT THE END OF THE PLAYLIST");
                                 } else {
@@ -252,15 +239,15 @@ public class MainActivity extends Activity implements
     }
 
 
-    private class GetSongTitle extends AsyncTask<URL, Void, String> {
-        private String url;
+    private class GetSongTitle extends AsyncTask<URL, Void, ResponseBody> {
+        private String url = "https://api.spotify.com/v1/tracks/";
 
-        public GetSongTitle(String url, Void progress, String response) {
-            this.url = url;
-        }
+//        public GetSongTitle(String url, Void progress, String response) {
+//            this.url = url;
+//        }
 
         @Override
-        protected String doInBackground(URL... urls) {
+        protected ResponseBody doInBackground(URL... urls) {
             OkHttpClient client = new OkHttpClient();
 
             Request request = new Request.Builder()
@@ -269,13 +256,19 @@ public class MainActivity extends Activity implements
 
             try {
                 Response response = client.newCall(request).execute();
-                return response.body().toString();
+                Log.d("HTTP SUCCESS", response.body().toString());
+                return response.body();
             } catch (IOException e) {
                 Log.d("HTTP ERROR==", e.toString());
                 e.printStackTrace();
             }
-
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(ResponseBody body) {
+            super.onPostExecute(body);
+            Log.d("ZOMG SUCCESS", "WHAT WHAT - JAVA GOD");
         }
     }
 }
