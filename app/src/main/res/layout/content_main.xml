@@ -21,11 +21,14 @@
 
     <TextView android:text="now playing..." android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:id="@+id/playing"
         android:textSize="20dp"
-        android:textColor="#c5e6ea" />
+        android:textColor="#c5e6ea"
+        android:layout_above="@+id/bPlay"
+        android:layout_toLeftOf="@+id/bSkip"
+        android:layout_toStartOf="@+id/bSkip"
+        android:layout_marginBottom="170dp"
+        android:visibility="invisible"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -77,8 +80,7 @@
         android:textStyle="bold|italic"
         android:visibility="invisible"
         android:gravity="center"
-        android:layout_marginTop="72dp"
-        android:layout_below="@+id/textView2"
+        android:layout_above="@+id/playing"
         android:layout_centerHorizontal="true"
         android:layout_margin="25dp"/>
 

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
+import com.juke.kynasaur.juke2.models.Track;
 import com.spotify.sdk.android.player.PlayerStateCallback;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
@@ -26,6 +27,10 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+
+
 // TO-DO: MOVE SPOTIFY LOG IN FROM MAIN ACTIVITY TO HOME ACTIVITY
 
 public class MainActivity extends Activity implements
@@ -41,6 +46,8 @@ public class MainActivity extends Activity implements
 
     private Player mPlayer;
 
+    private SpotifyService spotify;
+
     // use @override for nonspecific methods that can be applied to any activity/call/instance/etc.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +61,10 @@ public class MainActivity extends Activity implements
         AuthenticationRequest request = builder.build();
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
+
+        final SpotifyApi api = new SpotifyApi();
+
+        spotify = api.getService();
 
     }
 
@@ -72,18 +83,15 @@ public class MainActivity extends Activity implements
 //                set MyApplication variable to pull playlist variable on line 72
                final MyApplication app = ((MyApplication) this.getApplication());
                 mPlayer = Spotify.getPlayer(playerConfig, this, new Player.InitializationObserver() {
-                    // use "void" for methods in which nothing is explicitly returned
-                    // here, a song is played onInitialized but nothing is actually returned
-
 
                     @Override
-                    public void onInitialized(Player player) {
+                    public void onInitialized(final Player player) {
                         player.addConnectionStateCallback(MainActivity.this);
                         player.addPlayerNotificationCallback(MainActivity.this);
 
                         // PLAYLIST FROM PARSE - AUTOMATED PLAY AFTER EACH SONG
                         JSONArray songQueue = app.playList.getJSONArray("songs");
-                        if (songQueue.length() > 1) {
+                        if (songQueue.length() > 0) {
                             List songList = new ArrayList();
                             for (int i = 0; i < songQueue.length(); i++) {
                                 try {
@@ -95,6 +103,8 @@ public class MainActivity extends Activity implements
                             player.play(songList);
 
                         } else {
+                            player.play("spotify:track:3NFuE3uDOr6QUw9UZ9HzKo");
+
                             TextView noSongs = (TextView)findViewById(R.id.needSongs);
                             noSongs.setVisibility(View.VISIBLE);
 
@@ -116,19 +126,32 @@ public class MainActivity extends Activity implements
 
                             @Override
                             public void onPlaybackEvent (EventType eventType, PlayerState playerState){
-                                if (eventType == EventType.TRACK_CHANGED || eventType == EventType.BECAME_INACTIVE) {
-                                    mPlayer.getPlayerState(new PlayerStateCallback() {
-                                        @Override
-                                        public void onPlayerState(PlayerState playerState) {
-                                            Log.d("SUCCESS==", playerState.trackUri);
-                                        }
-                                    });
+                                Log.d("THIS IS THE EVENT==", eventType.toString());
+                                if (playerState.playing) {
+//                                    String current = playerState.trackUri;
+//                                    kaaes.spotify.webapi.android.models.Track playing = spotify.getTrack(current);
+//                                    String songTitle = playing.name;
+
+                                    TextView title = (TextView) findViewById(R.id.playing);
+                                    TextView noSongs = (TextView) findViewById(R.id.needSongs);
+//                                    title.setText(songTitle);
+                                    title.setVisibility(View.VISIBLE);
+                                    noSongs.setVisibility(View.INVISIBLE);
+
+                                    Log.d("NOW PLAYING==", playerState.trackUri);
+
+                                } else if (eventType.equals(EventType.TRACK_CHANGED) || eventType.equals(EventType.SKIP_NEXT)){
+                                    Log.d("CHANGED==", "IT HIT THE ELSE STATEMENT");
+                                } else if (eventType.equals(EventType.END_OF_CONTEXT)){
+                                    Log.d("THE END==", "SHOULD HIT THIS AT THE END OF THE PLAYLIST");
+                                } else {
+                                    Log.d("FAILURE==", "IT'S NOT GETTING TO THE EVENT");
                                 }
                             }
 
                             public void onPlaybackError(ErrorType errorType, String string) {
                                 Log.d("FAILURE==", string);
-                            };
+                            }
                         });
                     }
 
