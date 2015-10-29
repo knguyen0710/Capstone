@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.parse.ParseObject;
+
 import com.spotify.sdk.android.player.PlayerStateCallback;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
@@ -24,7 +24,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 // TO-DO: MOVE SPOTIFY LOG IN FROM MAIN ACTIVITY TO HOME ACTIVITY
@@ -82,11 +81,9 @@ public class MainActivity extends Activity implements
                         player.addConnectionStateCallback(MainActivity.this);
                         player.addPlayerNotificationCallback(MainActivity.this);
 
-//                        Intent refresh = new Intent(MainActivity.this, MainActivity.class);
-//                        startActivity(refresh);
                         // PLAYLIST FROM PARSE - AUTOMATED PLAY AFTER EACH SONG
                         JSONArray songQueue = app.playList.getJSONArray("songs");
-                        if (songQueue.length() > 0) {
+                        if (songQueue.length() > 1) {
                             List songList = new ArrayList();
                             for (int i = 0; i < songQueue.length(); i++) {
                                 try {
@@ -110,24 +107,29 @@ public class MainActivity extends Activity implements
                             bPause.setVisibility(View.INVISIBLE);
                             bSkip.setVisibility(View.INVISIBLE);
 
-//                            CLOSES THE APPLICATION ENTIRELY
-//                            MainActivity.this.finish();
+
                         }
 
 
 //                        USE PLAYER NOTIFICATION TO SEE END OF SONG TO DISPLAY CURRENT SONG??
-//                        mPlayer.addPlayerNotificationCallback(new PlayerNotificationCallback() {
-//                            @Override
-//                            public void onPlaybackEvent (EventType eventType, PlayerState playerState){
-//                                if (eventType == EventType.TRACK_CHANGED) {
-//                                    //do something
-//                                }
-//                            }
-//
-//                            public void onPlaybackError(ErrorType errorType, String string) {
-//
-//                            };
-//                        });
+                        player.addPlayerNotificationCallback(new PlayerNotificationCallback() {
+
+                            @Override
+                            public void onPlaybackEvent (EventType eventType, PlayerState playerState){
+                                if (eventType == EventType.TRACK_CHANGED || eventType == EventType.BECAME_INACTIVE) {
+                                    mPlayer.getPlayerState(new PlayerStateCallback() {
+                                        @Override
+                                        public void onPlayerState(PlayerState playerState) {
+                                            Log.d("SUCCESS==", playerState.trackUri);
+                                        }
+                                    });
+                                }
+                            }
+
+                            public void onPlaybackError(ErrorType errorType, String string) {
+                                Log.d("FAILURE==", string);
+                            };
+                        });
                     }
 
 
@@ -154,7 +156,10 @@ public class MainActivity extends Activity implements
     }
 
     public void songList(View v) {
-        startActivity(new Intent(MainActivity.this, addToPlaylist.class));
+        Intent intent = new Intent(MainActivity.this, addToPlaylist.class);
+        intent.putExtra("decade", "71WupOKqXgSrgg0CivZDHS");
+        startActivity(intent);
+
     }
 
     @Override
