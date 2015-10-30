@@ -134,12 +134,13 @@ public class MainActivity extends Activity implements
                                 Log.d("THIS IS THE EVENT==", eventType.toString());
                                 if (eventType.equals(EventType.TRACK_CHANGED) || eventType.equals(EventType.SKIP_NEXT)){
                                     String uri = playerState.trackUri;
-                                    GetSongTitle title = new GetSongTitle();
+                                    String id = uri.substring(14);
+                                    GetSongTitle title = new GetSongTitle(id);
                                     title.execute();
 
                                     TextView findTitle = (TextView) findViewById(R.id.playing);
                                     TextView noSongs = (TextView) findViewById(R.id.needSongs);
-//                                    title.setText(songTitle);
+
                                     findTitle.setVisibility(View.VISIBLE);
                                     noSongs.setVisibility(View.INVISIBLE);
                                     Log.d("NOW PLAYING==", playerState.trackUri);
@@ -155,7 +156,6 @@ public class MainActivity extends Activity implements
                             }
                         });
                     }
-
 
 
                     @Override
@@ -183,7 +183,6 @@ public class MainActivity extends Activity implements
         Intent intent = new Intent(MainActivity.this, addToPlaylist.class);
         intent.putExtra("decade", "71WupOKqXgSrgg0CivZDHS");
         startActivity(intent);
-
     }
 
     @Override
@@ -240,23 +239,24 @@ public class MainActivity extends Activity implements
 
 
     private class GetSongTitle extends AsyncTask<URL, Void, ResponseBody> {
-        private String url = "https://api.spotify.com/v1/tracks/";
+        private String base = "https://api.spotify.com/v1/tracks/";
 
-//        public GetSongTitle(String url, Void progress, String response) {
-//            this.url = url;
-//        }
+        public GetSongTitle(String url) {
+            this.base = base + url;
+        }
 
         @Override
         protected ResponseBody doInBackground(URL... urls) {
             OkHttpClient client = new OkHttpClient();
 
             Request request = new Request.Builder()
-                        .url(url)
+                        .url(base)
                         .build();
 
             try {
                 Response response = client.newCall(request).execute();
-                Log.d("HTTP SUCCESS", response.body().toString());
+
+                Log.d("HTTP SUCCESS", base);
                 return response.body();
             } catch (IOException e) {
                 Log.d("HTTP ERROR==", e.toString());
@@ -268,6 +268,14 @@ public class MainActivity extends Activity implements
         @Override
         protected void onPostExecute(ResponseBody body) {
             super.onPostExecute(body);
+            TextView resetTitle = (TextView) findViewById(R.id.playing);
+            try {
+                Log.d("THE RESPONSE", body.string());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            resetTitle.setText(body.toString());
             Log.d("ZOMG SUCCESS", "WHAT WHAT - JAVA GOD");
         }
     }
