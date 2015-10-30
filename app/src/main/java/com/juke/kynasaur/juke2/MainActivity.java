@@ -211,6 +211,10 @@ public class MainActivity extends Activity implements
         startActivity(new Intent(MainActivity.this, Searchable.class));
     }
 
+    public void queueIt(View v) {
+        startActivity(new Intent(MainActivity.this, Queue.class));
+    }
+
     @Override
     public void onLoggedIn() {
         Log.d("MainActivity", "User logged in");
