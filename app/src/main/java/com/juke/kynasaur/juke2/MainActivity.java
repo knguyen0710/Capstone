@@ -23,6 +23,7 @@ import com.squareup.okhttp.OkHttpClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
@@ -251,7 +252,7 @@ public class MainActivity extends Activity implements
         }
 
         @Override
-        protected ResponseBody doInBackground(URL... urls) {
+        protected Response doInBackground(URL... urls) {
             OkHttpClient client = new OkHttpClient();
 
             Request request = new Request.Builder()
@@ -262,9 +263,16 @@ public class MainActivity extends Activity implements
                 Response response = client.newCall(request).execute();
 
                 Log.d("HTTP SUCCESS", base);
-                return response.body();
+                String jsonData = response.body().string();
+                JSONObject jsonObject = new JSONObject(jsonData);
+                JSONObject album = jsonObject.getJSONObject("album");
+                String title = album.get("name").toString();
+                Log.d("JSON RETURN==", title);
+                return response;
             } catch (IOException e) {
                 Log.d("HTTP ERROR==", e.toString());
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
             return null;
