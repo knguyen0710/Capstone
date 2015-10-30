@@ -35,7 +35,6 @@ import kaaes.spotify.webapi.android.SpotifyService;
 
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
-import com.squareup.okhttp.ResponseBody;
 
 
 // TO-DO: MOVE SPOTIFY LOG IN FROM MAIN ACTIVITY TO HOME ACTIVITY
@@ -244,7 +243,7 @@ public class MainActivity extends Activity implements
     }
 
 
-    private class GetSongTitle extends AsyncTask<URL, Void, ResponseBody> {
+    private class GetSongTitle extends AsyncTask<URL, Void, String> {
         private String base = "https://api.spotify.com/v1/tracks/";
 
         public GetSongTitle(String url) {
@@ -252,7 +251,7 @@ public class MainActivity extends Activity implements
         }
 
         @Override
-        protected Response doInBackground(URL... urls) {
+        protected String doInBackground(URL... urls) {
             OkHttpClient client = new OkHttpClient();
 
             Request request = new Request.Builder()
@@ -261,14 +260,14 @@ public class MainActivity extends Activity implements
 
             try {
                 Response response = client.newCall(request).execute();
-
-                Log.d("HTTP SUCCESS", base);
                 String jsonData = response.body().string();
+
                 JSONObject jsonObject = new JSONObject(jsonData);
                 JSONObject album = jsonObject.getJSONObject("album");
+
                 String title = album.get("name").toString();
                 Log.d("JSON RETURN==", title);
-                return response;
+                return title;
             } catch (IOException e) {
                 Log.d("HTTP ERROR==", e.toString());
                 e.printStackTrace();
@@ -279,16 +278,12 @@ public class MainActivity extends Activity implements
         }
 
         @Override
-        protected void onPostExecute(ResponseBody body) {
-            super.onPostExecute(body);
+        protected void onPostExecute(String title) {
+            super.onPostExecute(title);
             TextView resetTitle = (TextView) findViewById(R.id.playing);
-            try {
-                Log.d("THE RESPONSE", body.string());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Log.d("THE RESPONSE", title);
 
-            resetTitle.setText(body.toString());
+            resetTitle.setText(title);
             Log.d("ZOMG SUCCESS", "WHAT WHAT - JAVA GOD");
         }
     }
