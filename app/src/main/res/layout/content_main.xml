@@ -24,11 +24,12 @@
         android:id="@+id/playing"
         android:textSize="20dp"
         android:textColor="#c5e6ea"
+        android:layout_marginBottom="169dp"
+        android:gravity="center"
+        android:visibility="invisible"
         android:layout_above="@+id/bPlay"
         android:layout_toLeftOf="@+id/bSkip"
-        android:layout_toStartOf="@+id/bSkip"
-        android:layout_marginBottom="170dp"
-        android:visibility="invisible"/>
+        android:layout_toStartOf="@+id/bSkip" />
 
     <Button
         android:layout_width="wrap_content"
@@ -36,10 +37,10 @@
         android:text="Play"
         android:id="@+id/bPlay"
         android:onClick="playIt"
-        android:layout_marginBottom="95dp"
-        android:layout_alignBottom="@+id/player"
-        android:layout_alignRight="@+id/bSongs"
-        android:layout_alignEnd="@+id/bSongs" />
+        android:layout_marginBottom="94dp"
+        android:background="#7effffff"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -47,28 +48,33 @@
         android:text="Pause"
         android:id="@+id/pause_button"
         android:onClick="pauseIt"
+        android:background="#86ffffff"
         android:layout_alignTop="@+id/bPlay"
-        android:layout_toLeftOf="@+id/bSongs"
-        android:layout_toStartOf="@+id/bSongs" />
+        android:layout_alignLeft="@+id/needSongs"
+        android:layout_alignStart="@+id/needSongs" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Song List"
+        android:text="Request Line"
         android:id="@+id/bSongs"
         android:onClick="songList"
-        android:layout_alignBottom="@+id/player"
-        android:layout_centerHorizontal="true" />
+        android:background="#92464b50"
+        android:textColor="#ffffff"
+        android:layout_alignTop="@+id/player"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Next"
         android:id="@+id/bSkip"
+        android:onClick="nextIt"
+        android:background="#7dffffff"
         android:layout_alignTop="@+id/bPlay"
-        android:layout_toRightOf="@+id/bSongs"
-        android:layout_toEndOf="@+id/bSongs"
-        android:onClick="nextIt"/>
+        android:layout_alignRight="@+id/needSongs"
+        android:layout_alignEnd="@+id/needSongs" />
 
     <TextView
         android:layout_width="wrap_content"

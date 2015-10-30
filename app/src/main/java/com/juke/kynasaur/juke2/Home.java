@@ -19,4 +19,6 @@ public class Home extends AppCompatActivity {
         startActivity(new Intent(Home.this, MainActivity.class));
     }
 
+    public void search (View v) { startActivity(new Intent(Home.this, Searchable.class));}
+
 }

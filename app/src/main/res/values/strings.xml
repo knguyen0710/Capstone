@@ -24,6 +24,12 @@
     <string name="title_activity_search_results">SearchResults</string>
     <string name="search_label">Search</string>
     <string name="suggestions">Don\'t know what your ears are craving? Put on some throwbacks!</string>
+    <string name="no_songs_yet">and I heard em say.. you got deez deez music lovers:</string>
+    <string name="title_activity_nav_test">NavTest</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
 
 
 </resources>

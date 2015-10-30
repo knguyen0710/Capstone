@@ -37,8 +37,6 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 
-// TO-DO: MOVE SPOTIFY LOG IN FROM MAIN ACTIVITY TO HOME ACTIVITY
-
 public class MainActivity extends Activity implements
         PlayerNotificationCallback, ConnectionStateCallback {
 
@@ -79,6 +77,8 @@ public class MainActivity extends Activity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
+        final List songList = new ArrayList();
+
         // Check if result comes from the correct activity
         if (requestCode == AUTHENTICATION_REQUEST_CODE) {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
@@ -100,7 +100,7 @@ public class MainActivity extends Activity implements
                         // PLAYLIST FROM PARSE - AUTOMATED PLAY AFTER EACH SONG
                         JSONArray songQueue = app.playList.getJSONArray("songs");
                         if (songQueue.length() > 0) {
-                            List songList = new ArrayList();
+
                             for (int i = 0; i < songQueue.length(); i++) {
                                 try {
                                     songList.add(songQueue.get(i));
@@ -109,6 +109,7 @@ public class MainActivity extends Activity implements
                                 }
                             }
                             player.play(songList);
+                            Log.d("PARSE SONGS==", songList.get(0).toString());
 
                         } else {
                             player.play("spotify:track:3NFuE3uDOr6QUw9UZ9HzKo");
@@ -121,10 +122,10 @@ public class MainActivity extends Activity implements
                             bPause = (Button)findViewById(R.id.pause_button);
                             bSkip = (Button)findViewById(R.id.bSkip);
 
-                            bPlay.setVisibility(View.INVISIBLE);
-                            bPause.setVisibility(View.INVISIBLE);
-                            bSkip.setVisibility(View.INVISIBLE);
-
+//                            bPlay.setVisibility(View.INVISIBLE);
+//                            bPause.setVisibility(View.INVISIBLE);
+//                            bSkip.setVisibility(View.INVISIBLE);
+                            Log.d("NOT PARSE SONGS", "WHERE IS IT");
 
                         }
 
@@ -135,7 +136,8 @@ public class MainActivity extends Activity implements
                             @Override
                             public void onPlaybackEvent (EventType eventType, PlayerState playerState){
                                 Log.d("THIS IS THE EVENT==", eventType.toString());
-                                if (eventType.equals(EventType.TRACK_CHANGED) || eventType.equals(EventType.SKIP_NEXT)){
+//                                MUST USE TRACK CHANGED AS EVENT - "PLAYING" EVENT RESULTS IN CONTINUOUS CALLS DURING PLAY AND ERRORS OUT
+                                if (eventType.equals(EventType.TRACK_CHANGED)){
                                     String uri = playerState.trackUri;
                                     String id = uri.substring(14);
                                     GetSongTitle title = new GetSongTitle(id);
@@ -147,24 +149,47 @@ public class MainActivity extends Activity implements
                                     findTitle.setVisibility(View.VISIBLE);
                                     noSongs.setVisibility(View.INVISIBLE);
                                     Log.d("NOW PLAYING==", playerState.trackUri);
+                                } else if (eventType.name().equals("TRACK_END") || eventType.equals(EventType.SKIP_NEXT)) {
+                                    String uri = playerState.trackUri;
+
+                                    JSONArray songQueue = app.playList.getJSONArray("songs");
+                                    if (songQueue.length() > 0) {
+                                        for (int i = 0; i < songQueue.length(); i++) {
+                                            try {
+                                                songList.add(songQueue.get(i));
+                                            } catch (JSONException e) {
+                                                Log.d("ERROR==", e.toString());
+                                            }
+                                        }
+                                        Integer remove = songList.indexOf(uri);
+                                        for (int k = 0; k <= remove; k++) {
+                                            songList.remove(k);
+                                        }
+                                        player.play(songList);
+
+                                    }
                                 } else if (eventType.equals(EventType.END_OF_CONTEXT)){
                                     Log.d("THE END==", "SHOULD HIT THIS AT THE END OF THE PLAYLIST");
                                 } else {
-                                    Log.d("FAILURE==", "IT'S NOT GETTING TO THE EVENT");
+                                    Log.d("EVENTS UNACCOUNTED==", "PAUSE, AUDIO_FLUSH");
                                 }
                             }
 
-                            public void onPlaybackError(ErrorType errorType, String string) {
-                                Log.d("FAILURE==", string);
-                            }
-                        });
-                    }
 
+
+                            @Override
+                            public void onPlaybackError(ErrorType errorType, String s) {
+
+                            }
+                    });
+
+                }
 
                     @Override
                     public void onError(Throwable throwable) {
-                        Log.e("===MainActivity", "Could not initialize player: " + throwable.getMessage());
+
                     }
+
                 });
             }
         }
@@ -183,9 +208,7 @@ public class MainActivity extends Activity implements
     }
 
     public void songList(View v) {
-        Intent intent = new Intent(MainActivity.this, addToPlaylist.class);
-        intent.putExtra("decade", "71WupOKqXgSrgg0CivZDHS");
-        startActivity(intent);
+        startActivity(new Intent(MainActivity.this, Searchable.class));
     }
 
     @Override
@@ -218,11 +241,8 @@ public class MainActivity extends Activity implements
     @Override
     public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
         Log.d("MainActivity", "Playback event received: " + eventType.name());
-        switch (eventType) {
-            // Handle event type as necessary
-            default:
-                break;
-        }
+
+
     }
 
     @Override
@@ -242,7 +262,7 @@ public class MainActivity extends Activity implements
         super.onDestroy();
     }
 
-
+//  RUNS ASYNCHRONOUS TASK TO MAKE API CALL - CALLS ON THE MAIN THREAD RESULT IN ERROR
     private class GetSongTitle extends AsyncTask<URL, Void, String> {
         private String base = "https://api.spotify.com/v1/tracks/";
 
@@ -266,7 +286,6 @@ public class MainActivity extends Activity implements
                 JSONObject album = jsonObject.getJSONObject("album");
 
                 String title = album.get("name").toString();
-                Log.d("JSON RETURN==", title);
                 return title;
             } catch (IOException e) {
                 Log.d("HTTP ERROR==", e.toString());
@@ -281,10 +300,8 @@ public class MainActivity extends Activity implements
         protected void onPostExecute(String title) {
             super.onPostExecute(title);
             TextView resetTitle = (TextView) findViewById(R.id.playing);
-            Log.d("THE RESPONSE", title);
 
             resetTitle.setText(title);
-            Log.d("ZOMG SUCCESS", "WHAT WHAT - JAVA GOD");
         }
     }
 }

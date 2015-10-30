@@ -26,7 +26,7 @@ public class Searchable extends Activity implements SearchView.OnQueryTextListen
     private ListView myList;
     private SearchView searchView;
     private MyCustomAdapter defaultAdapter;
-//    RESULT LIST REPLACES EXAMPLE NAME LIST
+
     final ArrayList<String> resultList = new ArrayList<>();
 
     final SpotifyApi api = new SpotifyApi();
@@ -87,7 +87,7 @@ public class Searchable extends Activity implements SearchView.OnQueryTextListen
             button.setVisibility(View.VISIBLE);
 
             TextView text = (TextView) findViewById(R.id.suggestions);
-            text.setText("pssst... here's some suggestions:");
+            text.setText(R.string.no_songs_yet);
 
             ListView listView = (ListView) findViewById(R.id.list);
             listView.setVisibility(View.GONE);
@@ -106,6 +106,10 @@ public class Searchable extends Activity implements SearchView.OnQueryTextListen
                 public void success(TracksPager tracksPager, Response response) {
                     Button button = (Button) findViewById(R.id.nineties);
                     button.setVisibility(View.INVISIBLE);
+                    Button button2 = (Button) findViewById(R.id.eighties);
+                    button2.setVisibility(View.INVISIBLE);
+                    Button button3 = (Button) findViewById(R.id.seventies);
+                    button3.setVisibility(View.INVISIBLE);
 
                     TextView text = (TextView) findViewById(R.id.suggestions);
                     text.setText("Top 5 search results for '" + query + "'");

@@ -60,8 +60,7 @@ public class MyApplication extends Application {
 
         // SAVING SONGS TO THE PARSE DB
         playList.put("songs", Arrays.asList());
-        playList.add("songs", "spotify:track:3NFuE3uDOr6QUw9UZ9HzKo");
-        playList.add("songs", "spotify:track:22mek4IiqubGD9ctzxc69s");
+
 
     }
 
