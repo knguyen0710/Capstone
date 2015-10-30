@@ -64,11 +64,6 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".NavTest"
-            android:label="@string/title_activity_nav_test"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity
             android:name=".Queue"
             android:label="@string/title_activity_queue"
             android:theme="@style/AppTheme.NoActionBar" >

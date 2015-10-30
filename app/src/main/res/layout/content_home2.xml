@@ -13,7 +13,7 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:src="@drawable/vinyl_record"
+        android:src="@drawable/keys"
         android:scaleType="centerCrop"
         android:id="@+id/imageView"
         android:background="#464648" />
@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button2"
-        android:text="Start a Party"
+        android:text="the library"
         android:textColor="#FFFFFF"
         android:background="#ad7a7d81"
         android:layout_above="@+id/player"
@@ -46,7 +46,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Music Central"
+        android:text="hit it"
         android:id="@+id/player"
         android:onClick="player"
         android:background="#b57a7d81"
@@ -62,7 +62,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="love your music like Kanye loves Kanye."
         android:id="@+id/textView"
-        android:textColor="#393d40"
+        android:textColor="#6d7479"
         android:textSize="15dp"
         android:textStyle="bold|italic"
         android:layout_marginTop="66dp"

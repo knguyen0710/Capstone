@@ -150,24 +150,25 @@ public class MainActivity extends Activity implements
                                     noSongs.setVisibility(View.INVISIBLE);
                                     Log.d("NOW PLAYING==", playerState.trackUri);
                                 } else if (eventType.name().equals("TRACK_END") || eventType.equals(EventType.SKIP_NEXT)) {
-                                    String uri = playerState.trackUri;
+//                                    String uri = playerState.trackUri;
+//
+//                                    JSONArray songQueue = app.playList.getJSONArray("songs");
+//                                    if (songQueue.length() > 0) {
+//                                        for (int i = 0; i < songQueue.length(); i++) {
+//                                            try {
+//                                                songList.add(songQueue.get(i));
+//                                            } catch (JSONException e) {
+//                                                Log.d("ERROR==", e.toString());
+//                                            }
+//                                        }
+//                                        Integer remove = songList.indexOf(uri);
+//                                        for (int k = 0; k <= remove; k++) {
+//                                            songList.remove(k);
+//                                        }
+                                        finish();
+                                        startActivity(getIntent());
 
-                                    JSONArray songQueue = app.playList.getJSONArray("songs");
-                                    if (songQueue.length() > 0) {
-                                        for (int i = 0; i < songQueue.length(); i++) {
-                                            try {
-                                                songList.add(songQueue.get(i));
-                                            } catch (JSONException e) {
-                                                Log.d("ERROR==", e.toString());
-                                            }
-                                        }
-                                        Integer remove = songList.indexOf(uri);
-                                        for (int k = 0; k <= remove; k++) {
-                                            songList.remove(k);
-                                        }
-                                        player.play(songList);
-
-                                    }
+//                                    }
                                 } else if (eventType.equals(EventType.END_OF_CONTEXT)){
                                     Log.d("THE END==", "SHOULD HIT THIS AT THE END OF THE PLAYLIST");
                                 } else {
