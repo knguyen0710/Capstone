@@ -36,27 +36,6 @@ public class MyApplication extends Application {
         // //   INITIALIZATION HERE CONNECTS THE APP TO THE PARSE DB
         Parse.initialize(this, "NnUyDFvhp0q1CqMpYyMNYfKlJzJI7eNcbbhnu9cL", "CCW2gwpmLwHExTcHAbEzk7ZaeNYRFSvue74oaAzO");
 
-        // //     user creation is not necessary but can be used to sort permissions (admin vs moderator)
-//        ParseUser user = new ParseUser();
-//        user.setUsername("my name");
-//        user.setPassword("my pass");
-//        user.setEmail("email@example.com");
-
-// other fields can be set just like with ParseObject
-//        user.put("phone", "650-253-0000");
-//
-//        user.signUpInBackground(new SignUpCallback() {
-//            @Override
-//            public void done(com.parse.ParseException e) {
-//                if (e == null) {
-//                    // Hooray! Let them use the app now.
-//                } else {
-//                    Log.d("FAILURE", String.valueOf(e.getLocalizedMessage()));
-//                    // Sign up didn't succeed. Look at the ParseException
-//                    // to figure out what went wrong
-//                }
-//            }
-//        });
 
         // SAVING SONGS TO THE PARSE DB
         playList.put("songs", Arrays.asList());

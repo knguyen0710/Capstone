@@ -85,6 +85,10 @@ public class Searchable extends Activity implements SearchView.OnQueryTextListen
         if (newText.length() < 1) {
             Button button = (Button) findViewById(R.id.nineties);
             button.setVisibility(View.VISIBLE);
+            Button button1 = (Button) findViewById(R.id.eighties);
+            button1.setVisibility(View.VISIBLE);
+            Button button2 = (Button) findViewById(R.id.seventies);
+            button2.setVisibility(View.VISIBLE);
 
             TextView text = (TextView) findViewById(R.id.suggestions);
             text.setText(R.string.no_songs_yet);
