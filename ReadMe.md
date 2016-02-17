@@ -1,4 +1,4 @@
-# PRODUCT PLAN
+# JukeBox DJ
 
 ### PROBLEM STATEMENT
 Create an interactive native Android mobile jukebox for users to make song requests to the party host.
