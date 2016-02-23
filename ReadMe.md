@@ -10,8 +10,5 @@ Rockbot uses a pre-selected playlist for users to make requests from and sets it
 The target audience will be Android mobile users (ideally) at the same house party. In this case, there will be one person hosting and therefore this person will have oversight of the music queue and be able to invite people to make requests. The other users that have either accepted an invite or requested one will only have the ability to make requests or favorite other requests.
 
 ### INTEGRATIONS
-- background/async jobs for any long running tasks (image processing, 3rd party data manipulation, audio)
-- caching for slow or bulky database interactions
-- performance analytics to asses and optimize site performance (average server response time < 300ms)
+- Background/async jobs for any long running tasks (image processing, 3rd party data manipulation, audio)
 - Third party OAuth via Spotify
-- Secure Socket Layer
