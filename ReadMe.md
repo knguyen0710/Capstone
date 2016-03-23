@@ -13,4 +13,4 @@ The target audience will be Android mobile users (ideally) at the same house par
 - Background/async jobs for any long running tasks (image processing, 3rd party data manipulation, audio)
 - Third party OAuth via Spotify
 
-![Home Page](/images/home_page.png) ![Search and Suggestions Page](/images/search_suggestions.png) ![Playlist](/images/playlist)
+![Search and Suggestions Page](/images/search_suggestions.png) ![Playlist](/images/playlist.png)
