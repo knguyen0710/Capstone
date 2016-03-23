@@ -12,3 +12,5 @@ The target audience will be Android mobile users (ideally) at the same house par
 ### INTEGRATIONS
 - Background/async jobs for any long running tasks (image processing, 3rd party data manipulation, audio)
 - Third party OAuth via Spotify
+
+![Home Page](file:///Users/kynasaur/Desktop)
